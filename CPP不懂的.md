@@ -480,4 +480,65 @@ reverse（s.begin(),s.end(）)
 
 # C++ algorithm库中的几个常用函数
 
-测试一下下
+# 栈的top()函数
+
+如果栈为空时调用top（）函数，就会报错。为了避免这种情况，应该在调用top函数之前，检查栈是否为空。用stack.empty()函数。
+
+> leetcode20. 括号匹配
+
+# +=运算符
+
+C=C+A和C+=A在内存中有区别
+
+C=C+A会创建一个临时变量，而C+=A就不会，它将右侧的`A`与`C`相加，并将结果直接存储在`C`中。
+
+# 类型转换
+
+下面这些函数不可以把string转化为int，但是==可以用std::stoi() 函数来实现。==
+
+1. 隐式的类型转换：由编译器自动执行的，不需要显式的转换操作符。
+
+   ~~~cpp
+   int a = 10;
+   float b = a;  // 隐式将整数a转换为浮点数b
+   ```
+   ~~~
+
+2. 显式类型转换：使用特定的转换操作符来指定转换的类型
+
+   * 静态转换（static_cast)：用于基本类型之间的转换，以及具有继承关系的类之间的转换。
+
+     ```cpp
+     float f = 3.14;
+     int n = static_cast<int>(f);  // 将浮点数f转换为整数n
+     ```
+
+   * 动态转换(dynamic_cast)：用于在继承关系中进行指针或引用的类型转换。它会在运行时检查类型转换的有效性，只有在转换可行时才会进行转换，否则返回空指针或引发异常（如果是指针转换）。
+
+     ~~~cpp
+     class Base { virtual void foo() {} };
+     class Derived : public Base {};
+     
+     Base* basePtr = new Derived();
+     Derived* derivedPtr = dynamic_cast<Derived*>(basePtr);  // 将Base指针转换为Derived指针
+     ```
+     
+     ~~~
+
+   * 常量转换(const_cast) ：用于**移除**变量的const属性或volatile属性。
+
+     ```cpp
+     const int x = 10;
+     int* y = const_cast<int*>(&x);  // 移除变量x的const属性
+     *y = 20;  // 修改变量x的值
+     ```
+
+   * 重新解释转换(reinterpret_cast) ：用于不同类型之间的二进制位的重新解释。它通常用于指针之间的转换。
+
+     ```cpp
+     int n = 10;
+     float* f = reinterpret_cast<float*>(&n);  // 将整数n的内存解释为浮点数
+     ```
+
+     
+
