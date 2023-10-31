@@ -225,6 +225,24 @@ constexpr double area = c.getArea();  // 在编译时求值
 
 浅拷贝 (shallow copy) 只是对指针的拷贝, 拷贝够两个指针指向同一个内存空间. 深拷贝 (deep copy) 不但对指针进行拷贝, 而且对指针指向的内容进行拷贝. 经过深拷贝后的指针是指向两个不同地址的指针.
 
+```cpp
+#include <iostream>
+using namespace std;
+int main()
+{
+    int a = 1;
+    int *b = &a;
+    int *c = new int(a); // 深拷贝
+    int *d = b;          // 浅拷贝
+    a++;
+    cout << *b << endl;
+    cout << *c << endl;
+    return 0;
+}
+```
+
+
+
 # 顺序容器
 
 | 类型           | 特性                                                         |
@@ -506,7 +524,7 @@ C=C+A会创建一个临时变量，而C+=A就不会，它将右侧的`A`与`C`�
 
 2. 显式类型转换：使用特定的转换操作符来指定转换的类型
 
-   * 静态转换（static_cast)：用于基本类型之间的转换，以及具有继承关系的类之间的转换。
+   * 静态转换（static_cast)：用于基本类型之间的转换，以及具有继承关系的类之间的转换。==不可以将int转换为string==
 
      ```cpp
      float f = 3.14;
@@ -542,3 +560,131 @@ C=C+A会创建一个临时变量，而C+=A就不会，它将右侧的`A`与`C`�
 
      
 
+# C++字符串 path+strlen(path)
+
+```c++
+#include <iostream>
+#include <cstring>
+using namespace std;
+int main()
+{
+    char path[] = "fuck";
+    char *p = path + strlen(path);  // 指向 fuck的下一个位置
+    p--; // 指向 fuck 的 字符 k 位置
+    if (p >= path)  
+        cout << p << endl;   // 输出 指针p的指向的字符以及后面的字符   如果是*p的话就只指向当前字符
+    return 0;
+}
+```
+
+# 字符数组比较大小
+
+```c++
+#include <iostream>
+#include <cstring>
+using namespace std;
+int main()
+{
+    char path[] = "fuck";
+    char *p = path + strlen(path);
+    if (p >= path)
+        cout << p << endl;
+    return 0;
+}
+```
+
+path指针指向了字符串的起始位置为‘f’
+
+p指针指向了字符串的结尾k的后面‘\0’
+
+p>=path 的含义是 如果p在path指针指向位置的后面的话。
+
+
+
+# 通过输入文件路径得到文件名
+
+```cpp
+    char* get_name(char* path){//获取当前文件名
+        char * p;
+        for(p = path+strlen(path); p >= path && *p != '/'; p--);
+        p++;
+        return p;
+    }
+```
+
+# *和++的优先级
+
+```cpp
+char path[] = "fuck";
+char* p = path;
+*p++ = ’/‘;
+```
+
+先解引用，然后在++; 等价于
+
+```c++
+*p = '/';
+p++;    // path ++是错的， 不能数组++
+```
+
+# 迭代器声明 iterator
+
+`unordered_map<int,int> : iterator it = map.begin()`
+
+```c++
+for (unordered_map<int, int>::iterator it = map.begin(); it != map.end(); it++)
+```
+
+# 优先级队列（大顶堆小顶堆）
+
+初始化：`priority_queue<T,vector<T>,comparison>`， 如果没有自定义 `comparison`函数，那么默认是大顶堆。
+
+```c++
+class comparison{
+public:
+	bool operator()(int a,int b){
+		return  a>b;  //小顶堆
+	}
+}；
+```
+
+`operator()` 函数实现了比较运算符
+
+==当对象被调用时，会自动调用重载的函数调用运算符==
+
+也可以缺省初始化为
+
+```c++
+vector<int> vc;
+priority_queue<int> q(vc.begin(),vc.end());
+```
+
+## 遍历优先级队列
+
+```c++
+for(q.size()){
+rs=rs+q.top; // 拿q.top()去做事；
+q.pop();
+}
+```
+
+# long long 默认初始化
+
+long long 的默认初始化是未定义的，所以==需要显示的初始化==。
+
+# stack 和queue面试问题
+
+不是容器，而是容器适配器
+
+并且不提供迭代器。
+
+栈里面的元素在内存中是连续分布的么？
+
+- 陷阱1：栈是容器适配器，底层容器使用不同的容器，导致栈内数据在内存中是不是连续分布。
+- 陷阱2：缺省情况下，默认底层容器是deque，那么deque的在内存中的数据分布是什么样的呢？ 答案是：不连续的，下文也会提到deque。
+
+# int 怎么转化为 string
+
+string str = std::to_string(int x);
+
+使用 `static_cast` ==无法==直接将 `int` 转换为 `string`。`static_cast` 主要用于类型转换，可以在不同的数值类型之间进行转换，例如将 `int` 转换为 `double` 或将 `float` 转换为 `int`。但是，它不能直接将基本类型转换为 `string`。
