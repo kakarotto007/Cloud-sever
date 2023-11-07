@@ -1,0 +1,4 @@
+11.6 
+java深拷贝、浅拷贝；值传递、引用传递；《FN-SSL: Full-Band and Narrow-Band Fusion for Sound Source Localization》看了一点，感觉是借鉴的SE的。《FullSubNet: A Full-Band and Sub-Band Fusion Model for Real-Time Single-Channel Speech Enhancement.》SE的full and sub 大概过了一遍。
+11.7
+找论文，小组会分享META-SELD，后面看视听定位/？自己生成音频数据，熟悉流程。AD-yolo纯垃圾。 准备看《TF-GRIDNET: MAKING TIME-FREQUENCY DOMAIN MODELS GREAT AGAIN FOR MONAURAL SPEAKER SEPARATION》 有时间的话看看《HYBRID TRANSFORMERS FOR MUSIC SOURCE SEPARATION》 github：7k。。 找并发教程视频看。

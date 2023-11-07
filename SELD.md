@@ -1,5 +1,7 @@
 # Data augmentation
 
+To improve the generalization of the model,we employ **random cutout**,**time-frequency masking**, **frequency shifting** and **augmix**.
+
 **在fdy-sed的源码里面有：**
 
 - frame_shift 
@@ -25,7 +27,9 @@ https://github.com/Jinbo-Hu/L3DAS22-TASK2
 
 https://github.com/rfalcon100/Spatial-Mixup-Pytorch
 
+**2022 workshop**
 
+![image-20231107163353857](https://raw.githubusercontent.com/kakarotto007/final/master/image-20231107163353857.png)
 
 
 
