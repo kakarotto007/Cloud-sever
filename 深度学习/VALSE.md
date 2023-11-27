@@ -41,3 +41,17 @@ Visual in-context learning
 3，当前零样本学习仍是极具挑战性的研究课题，离工业落地具有一定的距离。当前是否有必要结合实际的业界应用场景推进零样本学习研究?
 
 4，当前大模型的涌现，学术界应该如何面对工业界靠数据、计算资源取胜的局面? 除了靠数据和计算资源，还有什么可以推进一个领域的发展?
+
+# 因果可信学习
+
+分布外泛化：
+
+<img src="https://raw.githubusercontent.com/kakarotto007/final/master/Snipaste_2023-11-22_22-28-54.png" alt="Snipaste_2023-11-22_22-28-54" style="zoom: 50%;" />
+
+假设学到的表征与潜在的因果过程是一致的
+
+<img src="https://raw.githubusercontent.com/kakarotto007/final/master/image-20231122223321933.png" alt="image-20231122223321933" style="zoom: 33%;" />
+
+当前人工智能在分布外泛化方面存在缺陷。可以利用不变性和异质性
+
+<img src="https://raw.githubusercontent.com/kakarotto007/final/master/image-20231122222445886.png" style="zoom:67%;" />

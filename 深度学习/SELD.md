@@ -105,3 +105,44 @@ SwG-former
 !(https://raw.githubusercontent.com/kakarotto007/final/master/image-20231114165159533.png)
 
 ![image-20231114165216084](https://raw.githubusercontent.com/kakarotto007/final/master/image-20231114165216084.png)
+
+# 分帧
+
+一帧内可以看作是平稳的信号，可以做傅里叶变换来搞清楚内部各个频率成分的分布。
+
+分帧的长度：
+
+- 从宏观上看，它必须足够短来保证帧内信号是平稳的。前面说过，口型的变化是导致信号不平稳的原因，所以在一帧的期间内口型不能有明显变化，即一帧的长度应当小于一个**音素**的长度。正常语速下，音素的持续时间大约是 50~200 毫秒，所以帧长一般取为小于 50 毫秒。
+- 从微观上来看，它又必须包括足够多的振动周期，因为傅里叶变换是要分析频率的，只有重复足够多次才能分析频率。语音的基频，男声在 100 赫兹左右，女声在 200 赫兹左右，换算成周期就是 10 毫秒和 5 毫秒。既然一帧要包含多个周期，所以一般取至少 20 毫秒。
+
+这样，我们就知道了帧长一般取为 **20 ~ 50 毫秒**，20、25、30、40、50 都是比较常用的数值。
+
+分帧的帧数：
+
+![image-20231124100429354](https://raw.githubusercontent.com/kakarotto007/final/master/image-20231124100429354.png)
+
+# 加窗
+
+[加窗](https://www.zhihu.com/search?q=加窗&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={"sourceType"%3A"answer"%2C"sourceId"%3A225983811})的目的是让一帧信号的幅度在两端**渐变**到 0。渐变对傅里叶变换有好处，可以让频谱上的各个峰更细，不容易糊在一起（术语叫做**减轻频谱泄漏**）
+
+加窗的代价是一帧信号两端的部分被削弱了，没有像中央的部分那样得到重视。弥补的办法是，帧不要背靠背地截取，而是相互重叠一部分。相邻两帧的起始位置的时间差叫做**[帧移](https://www.zhihu.com/search?q=帧移&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={"sourceType"%3A"answer"%2C"sourceId"%3A225983811})**，常见的取法是取为**帧长的一半**，或者固定取为 **10 毫秒**。
+
+# 分帧加窗的代码实现
+
+```python
+def enframe(signal, frame_len=frame_len, frame_shift=frame_shift, win=np.hamming(frame_len)):
+    """
+    calculate the number of frames: 
+    frames = (num_samples -frame_len) / frame_shift +1
+    """
+    num_samples = signal.size
+    num_frames = np.floor((num_samples - frame_len) / frame_shift)+1  
+    # calculate the numbers of frames
+    frames = np.zeros((int(num_frames),frame_len))   # (num_frames,frame_len)
+    # Initialize an array for putting the frame signals into it
+    for i in range(int(num_frames)):
+        frames[i,:] = signal[i*frame_shift:i*frame_shift + frame_len]
+        frames[i,:] = frames[i,:] * win
+    return frames
+```
+
